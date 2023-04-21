@@ -10,11 +10,12 @@ const App = () => {
   const [dark, setDark] = useState(false);
   const [data, setData] = useState([]);
   useEffect(() => {
-    localStorage.setItem("data", JSON.stringify(data));
+    // localStorage.setItem("data", JSON.stringify(data));
     const item = JSON.parse(localStorage.getItem("data"));
-    setData(item);
+    if (item != null) {
+      setData(item);
+    }
   }, []);
-  console.log(data);
   const handleTheme = (e) => {
     setDark(!dark);
     console.log(data);
@@ -46,26 +47,20 @@ const App = () => {
     setData([...data, items]);
     e.target[0].value = "";
     e.target[1].value = "";
-    localStorage.setItem("data", JSON.stringify(data));
   };
+  localStorage.setItem("data", JSON.stringify(data));
 
   const handleCheck = (id) => {
     const oldData = data.filter((e) => e.id == id);
     oldData[0]["status"] = "cheked";
     const newData = data.filter((e) => e.id != id);
     setData([...newData, ...oldData]);
-    localStorage.setItem("data", JSON.stringify(data));
   };
 
   const handleDelete = (id) => {
     console.log(data[0].id);
     const newData = data.filter((e) => e.id != id);
     setData(newData);
-    if (data.length == 1) {
-      localStorage.setItem("data", JSON.stringify([]));
-      return;
-    }
-    localStorage.setItem("data", JSON.stringify(data));
   };
   return (
     <div className={dark ? "dark" : ""}>
