@@ -4,10 +4,18 @@ import { useEffect } from "react";
 const Content = (props) => {
   const data = props.data;
   const handleCheck = (e) => {
-    props.cheked(e.target.id);
-    console.log(e.target.id);
+    const konfirmasi = confirm("Anda telah menyelesaikan todo ini!");
+    if (konfirmasi) {
+      props.cheked(e.target.id);
+    }
   };
-  console.log(data);
+
+  const handleDelete = (e) => {
+    const konfirmasi = confirm("Anda akan menghapus todo ini!");
+    if (konfirmasi) {
+      props.delete(e.target.id);
+    }
+  };
   return (
     <div className='text-sm bg-white dark:bg-rose-800 py-3 pr-5 pl-3 shadow-md mt-3 rounded-md'>
       {data.length > 0 ? (
@@ -30,20 +38,27 @@ const Content = (props) => {
             >
               {item.date}
             </p>
-            <button
-              onClick={handleCheck}
-              className='absolute w-6 h-6 bg-white border-2 border-teal-600 rounded-full grid place-items-center text-lg text-teal-600 top-1 -right-3'
-            >
-              <BsCheckLg id={item.id} />
-            </button>
-            <button className='absolute w-6 h-6 bg-white border-2 border-rose-600 rounded-full top-7 -right-3 grid place-items-center text-lg text-rose-600'>
-              <RiCloseFill />
-            </button>
+            <div className='flex flex-col justify-center gap-1 absolute h-full top-0 -right-3'>
+              <button
+                onClick={handleCheck}
+                className={`w-6 h-6 bg-white border-2 border-teal-600 rounded-full grid place-items-center text-lg text-teal-600 ${
+                  item.status == "cheked" ? "hidden" : null
+                }`}
+              >
+                <BsCheckLg id={item.id} />
+              </button>
+              <button
+                onClick={handleDelete}
+                className='w-6 h-6 bg-white border-2 border-rose-600 rounded-full  grid place-items-center text-lg text-rose-600'
+              >
+                <RiCloseFill id={item.id} />
+              </button>
+            </div>
           </div>
         ))
       ) : (
         <h1 className='text-center font-extrabold text-rose-900 dark:text-white'>
-          Data Lagi Kosong
+          Data Kosong Nih!
         </h1>
       )}
     </div>

@@ -3,11 +3,17 @@ import Form from "../Components/Form";
 import Content from "../Components/Content";
 import Container from "../Components/Container";
 import Theme from "../Components/Theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const App = () => {
   const [dark, setDark] = useState(false);
   const [data, setData] = useState([]);
+  useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(data));
+    const item = JSON.parse(localStorage.getItem("data"));
+    setData(item);
+  }, []);
+  console.log(data);
   const handleTheme = () => {
     setDark(!dark);
     console.log(data);
@@ -31,7 +37,7 @@ const App = () => {
     const newDate = `${date[2]} ${month[date[1][1] - 1]} ${date[0]}`;
     const name = e.target[0].value;
     const items = {
-      id: data.length + 1,
+      id: Math.floor(Math.random() * 111),
       name: name,
       date: newDate,
       status: "uncheked",
@@ -39,16 +45,27 @@ const App = () => {
     setData([...data, items]);
     e.target[0].value = "";
     e.target[1].value = "";
+    localStorage.setItem("data", JSON.stringify(data));
   };
 
   const handleCheck = (id) => {
     const oldData = data.filter((e) => e.id == id);
     oldData[0]["status"] = "cheked";
     const newData = data.filter((e) => e.id != id);
-    setData([...newData, oldData]);
+    setData([...newData, ...oldData]);
+    localStorage.setItem("data", JSON.stringify(data));
   };
 
-  const handleDelete = () => {};
+  const handleDelete = (id) => {
+    console.log(data[0].id);
+    const newData = data.filter((e) => e.id != id);
+    setData(newData);
+    if (data.length == 1) {
+      localStorage.setItem("data", JSON.stringify([]));
+      return;
+    }
+    localStorage.setItem("data", JSON.stringify(data));
+  };
   return (
     <div className={dark ? "dark" : ""}>
       <Navbar />

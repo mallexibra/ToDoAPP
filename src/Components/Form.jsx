@@ -13,6 +13,8 @@ const Form = (props) => {
           type='text'
           name='name'
           id='name'
+          required
+          autoComplete='off'
           placeholder='Nama kegiatan ...'
           className='block w-full border-2  placeholder:italic placeholder:text-[10px] sm:placeholder:text-base outline-none p-2 rounded-md border-rose-400 mt-2'
         />
@@ -25,6 +27,7 @@ const Form = (props) => {
           type='date'
           name='date'
           id='date'
+          required
           className='block w-full border-2 outline-none p-2 rounded-md border-rose-400 mt-2'
         />
       </label>
