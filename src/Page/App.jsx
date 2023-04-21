@@ -9,16 +9,28 @@ import Footer from "../Components/Footer";
 const App = () => {
   const [dark, setDark] = useState(false);
   const [data, setData] = useState([]);
+  // const [temp, setTemp] = useState([])
+
   useEffect(() => {
-    // localStorage.setItem("data", JSON.stringify(data));
     const item = JSON.parse(localStorage.getItem("data"));
-    if (item != null) {
+    if (item) {
       setData(item);
     }
   }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem("theme", dark);
+  //   const theme = JSON.parse(localStorage.getItem("theme"));
+  //   setDark(theme);
+  // }, [dark]);
+
+  useEffect(() => {
+    if (data.length >= 1) {
+      localStorage.setItem("data", JSON.stringify(data));
+    }
+  }, [data]);
   const handleTheme = (e) => {
     setDark(!dark);
-    console.log(data);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +60,6 @@ const App = () => {
     e.target[0].value = "";
     e.target[1].value = "";
   };
-  localStorage.setItem("data", JSON.stringify(data));
 
   const handleCheck = (id) => {
     const oldData = data.filter((e) => e.id == id);
