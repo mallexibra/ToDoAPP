@@ -4,6 +4,7 @@ import Content from "../Components/Content";
 import Container from "../Components/Container";
 import Theme from "../Components/Theme";
 import { useEffect, useState } from "react";
+import Footer from "../Components/Footer";
 
 const App = () => {
   const [dark, setDark] = useState(false);
@@ -14,7 +15,7 @@ const App = () => {
     setData(item);
   }, []);
   console.log(data);
-  const handleTheme = () => {
+  const handleTheme = (e) => {
     setDark(!dark);
     console.log(data);
   };
@@ -68,12 +69,15 @@ const App = () => {
   };
   return (
     <div className={dark ? "dark" : ""}>
-      <Navbar />
-      <Container>
-        <Form onSubmit={handleSubmit} />
-        <Content data={data} cheked={handleCheck} delete={handleDelete} />
-        <Theme onClick={handleTheme} theme={dark.toString()} />
-      </Container>
+      <div className={` w-full dark:bg-slate-950`}>
+        <Navbar />
+        <Container>
+          <Form onSubmit={handleSubmit} />
+          <Content data={data} cheked={handleCheck} delete={handleDelete} />
+          <Theme onClick={handleTheme} theme={dark.toString()} />
+        </Container>
+        <Footer />
+      </div>
     </div>
   );
 };
