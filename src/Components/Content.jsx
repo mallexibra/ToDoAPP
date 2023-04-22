@@ -1,20 +1,42 @@
 import { RiCloseFill } from "react-icons/ri";
 import { BsCheckLg } from "react-icons/bs";
-import { useEffect } from "react";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+
 const Content = (props) => {
   const data = props.data;
   const handleCheck = (e) => {
-    const konfirmasi = confirm("Anda telah menyelesaikan todo ini!");
-    if (konfirmasi) {
-      props.cheked(e.target.id);
-    }
+    Swal.fire({
+      title: "Apakah To Do sudah selesai?",
+      text: "Anda tidak dapat mengembalikan tindakan ini!",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sudah dong!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        props.cheked(e.target.id);
+        Swal.fire("Sukses!", "To Do selesai dikerjakan.", "success");
+      }
+    });
   };
 
   const handleDelete = (e) => {
-    const konfirmasi = confirm("Anda akan menghapus todo ini!");
-    if (konfirmasi) {
-      props.delete(e.target.id);
-    }
+    Swal.fire({
+      title: "Anda yakin, akan menghapus To Do ini?",
+      text: "Anda tidak dapat mengembalikan tindakan ini!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yakin dong!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        props.delete(e.target.id);
+        Swal.fire("Sukses!", "To Do sukses dihapus.", "success");
+      }
+    });
   };
   return (
     <div className='text-sm bg-white dark:bg-rose-800 py-3 pr-5 pl-3 shadow-md mt-3 rounded-md'>

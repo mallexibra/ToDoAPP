@@ -9,29 +9,29 @@ import Footer from "../Components/Footer";
 const App = () => {
   const [dark, setDark] = useState(false);
   const [data, setData] = useState([]);
-  // const [temp, setTemp] = useState([])
 
   useEffect(() => {
     const item = JSON.parse(localStorage.getItem("data"));
     if (item) {
       setData(item);
     }
+    const theme = JSON.parse(localStorage.getItem("theme"));
+    if (theme) {
+      setDark(true);
+    }
   }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem("theme", dark);
-  //   const theme = JSON.parse(localStorage.getItem("theme"));
-  //   setDark(theme);
-  // }, [dark]);
+  useEffect(() => {
+    localStorage.setItem("theme", dark);
+  }, [dark]);
 
   useEffect(() => {
-    if (data.length >= 1) {
-      localStorage.setItem("data", JSON.stringify(data));
-    }
+    localStorage.setItem("data", JSON.stringify(data));
   }, [data]);
   const handleTheme = (e) => {
     setDark(!dark);
   };
+  console.log(dark);
   const handleSubmit = (e) => {
     e.preventDefault();
     const date = e.target[1].value.split("-");
@@ -69,7 +69,6 @@ const App = () => {
   };
 
   const handleDelete = (id) => {
-    console.log(data[0].id);
     const newData = data.filter((e) => e.id != id);
     setData(newData);
   };
